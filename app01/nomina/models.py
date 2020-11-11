@@ -1,6 +1,7 @@
 from django.db import models
 # Create your models here.
 
+
 class Direction(models.Model):
     street_name=models.CharField(max_length=50,verbose_name='Nombre de la calle.')
     house_number=models.PositiveIntegerField(verbose_name='Numero de casa.')
@@ -28,12 +29,24 @@ class Task(models.Model):
         verbose_name_plural='Puestos'
 
 
+class Odate(models.Model):
+    status=models.CharField(max_length=50,verbose_name='Estado de pago')
+
+    def __str__(self):
+        return self.status
+
+    class Meta:
+        verbose_name='Estado'
+        verbose_name_plural='Estados'
+
+
 class Employee(models.Model):
     name=models.CharField(max_length=50,verbose_name='Nombre.')
     surname=models.CharField(max_length=100,verbose_name='Apellidos.')
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE, verbose_name='Puesto')
     direction_id = models.ForeignKey(Direction, on_delete=models.CASCADE, verbose_name='Dirección')
     phone=models.CharField(max_length=13,verbose_name='Numero de telefono.')
+    odate_id=models.ForeignKey(Odate, on_delete=models.CASCADE, verbose_name='Estado')
 
     def __str__(self):
         return "{0}--{1}".format(self.name, self.task_id)
